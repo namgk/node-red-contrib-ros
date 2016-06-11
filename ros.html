@@ -1,15 +1,15 @@
 <script type="text/javascript">
     RED.nodes.registerType('ros-subscribe',{
-        category: 'function',
+        category: 'ros',
         color: '#a6bbcf',
         defaults: {
-            server: {value:"", type:"ros-server"},
-            name: "/cmd_vel",
-            type: "geometry_msgs/Twist"
+            server: {type:"ros-server"},
+            topicname: {value: "/cmd_vel"},
+            msgtype: {value: "geometry_msgs/Twist"}
         },
         inputs:0,
         outputs:1,
-        icon: "feed.png",
+        icon: "icon.png",
         label: function() {
             return this.name||"ros-subscribe";
         }
@@ -18,25 +18,62 @@
 
 <script type="text/x-red" data-template-name="ros-subscribe">
     <div class="form-row">
-        <label for="node-input-name"><i class="icon-tag"></i> Name</label>
-        <input type="text" id="node-input-name" placeholder="/cmd_vel">
+        <label for="node-input-server"><i class="fa fa-user"></i> ROS Server</label>
+        <input type="text" id="node-input-server">
     </div>
     <div class="form-row">
-        <label for="node-input-type"><i class="icon-tag"></i> Type</label>
-        <input type="text" id="node-input-type" placeholder="geometry_msgs/Twist">
+        <label for="node-input-topicname"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-topicname" placeholder="/cmd_vel">
+    </div>
+    <div class="form-row">
+        <label for="node-input-msgtype"><i class="icon-tag"></i> Type</label>
+        <input type="text" id="node-input-msgtype" placeholder="geometry_msgs/Twist">
     </div>
 </script>
 
-<script type="text/x-red" data-help-name="ros-subscribe">
-    <p>A node that subscribe to ROS bridge websocket server</p>
+<script type="text/javascript">
+    RED.nodes.registerType('ros-publish',{
+        category: 'ros',
+        color: '#a6bbcf',
+        defaults: {
+            server: {type:"ros-server"},
+            topicname: {value: "/cmd_vel"},
+            msgtype: {value: "geometry_msgs/Twist"}
+        },
+        inputs:1,
+        outputs:0,
+        icon: "icon.png",
+        label: function() {
+            return this.name||"ros-publish";
+        }
+    });
 </script>
 
+<script type="text/x-red" data-template-name="ros-publish">
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-user"></i> ROS Server</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topicname"><i class="icon-tag"></i> Name</label>
+        <input type="text" id="node-input-topicname" placeholder="/cmd_vel">
+    </div>
+    <div class="form-row">
+        <label for="node-input-msgtype"><i class="icon-tag"></i> Type</label>
+        <input type="text" id="node-input-msgtype" placeholder="geometry_msgs/Twist">
+    </div>
+</script>
+
+
+<script type="text/x-red" data-help-name="ros-subscribe">
+    <p>A node that subscribe to ROS bridge websocket server 111</p>
+</script>
 
 <script type="text/javascript">
     RED.nodes.registerType('ros-server',{
         category: 'config',
         defaults: {
-            url: {value:"ws://localhost:9090",required:true}
+            url: {value:"wss://bennu.magic.ubc.ca:9000/rosws",required:true}
         },
         label: function() {
             return this.url;

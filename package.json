@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-ros",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Node-RED nodes for connecting to ROS bridge",
   "repository": {
     "type": "git",
@@ -12,7 +12,8 @@
   ],
   "node-red": {
     "nodes": {
-      "ros-subscribe": "ros.js"
+      "ros-subscribe-node": "ros-subscribe-node.js",
+      "ros-publish-node": "ros-publish-node.js"
     }
   },
   "author": "Nam Giang",
