@@ -4,6 +4,10 @@ module.exports = function(RED) {
   function RosSubscribeNode(config) {
     RED.nodes.createNode(this,config);
     this.server = RED.nodes.getNode(config.server);
+    
+    if (!this.server){
+      return;
+    }
 
     var node = this;
 

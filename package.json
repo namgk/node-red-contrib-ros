@@ -10,9 +10,9 @@
     "node-red-node",
     "ros"
   ],
-  "node-red"     : {
+  "node-red": {
     "nodes": {
-        "ros-subscribe": "ros.js"
+      "ros-subscribe": "ros.js"
     }
   },
   "author": "Nam Giang",
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/namgk/node-red-contrib-ros/issues"
   },
-  "homepage": "https://github.com/namgk/node-red-contrib-ros#readme"
+  "homepage": "https://github.com/namgk/node-red-contrib-ros#readme",
+  "dependencies": {
+    "roslib": "^0.18.0"
+  }
 }
