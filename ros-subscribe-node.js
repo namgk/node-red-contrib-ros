@@ -1,7 +1,7 @@
-module.exports = function(RED) {
-  var ROSLIB = require('roslib'); 
+module.exports = function (RED){
+  return function (config) {
+    var ROSLIB = require('roslib'); 
 
-  function RosSubscribeNode(config) {
     RED.nodes.createNode(this,config);
     var node = this;
 
@@ -36,42 +36,35 @@ module.exports = function(RED) {
       });
 
       ros.on('connection', function() {
-        this.status({fill:"green",shape:"dot",text:"connected"});
-        node.log('RosSubscribeNode connected to websocket server.');
+        node.status({fill:"green",shape:"dot",text:"connected"});
+        node.log('connected to websocket server.');
 
         topic.subscribe(function(data){
           node.send({payload: data});
-          node.log('RosSubscribeNode got data: ' + data);
+          node.log('got data: ' + data);
         });
       });
 
       ros.on('error', function(error) {
-        this.status({fill:"red",shape:"dot",text:"error"});
-        node.log('RosSubscribeNode Error connecting to websocket server: ', error);
+        node.status({fill:"red",shape:"dot",text:"error"});
+        node.log('Error connecting : ', error);
         if (!node.closing) {
           node.tout = setTimeout(function(){ startconn(); }, 5000);
         }
       });
 
       ros.on('close', function() {
-        this.status({fill:"red",shape:"dot",text:"disconnected"});
-        node.log('RosSubscribeNode Connection to websocket server closed.');
+        node.status({fill:"red",shape:"dot",text:"disconnected"});
+        node.log('Connection closed.');
 
         if (!node.closing) {
           node.tout = setTimeout(function(){ startconn(); }, 3000);
         }
       });
     }
-  	
+    
     startconn();
     node.closing = false;
   }
-  RED.nodes.registerType("ros-subsribe",RosSubscribeNode);
-
-
-  function RosServerNode(n) {
-    RED.nodes.createNode(this,n);
-    this.url = n.url;
-  }
-  RED.nodes.registerType("ros-server",RosServerNode);
 }
+

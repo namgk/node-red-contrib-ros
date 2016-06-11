@@ -1,7 +1,7 @@
 module.exports = function(RED) {
-  var ROSLIB = require('roslib'); 
+  return function (config) {
+    var ROSLIB = require('roslib'); 
 
-  function RosPublishNode(config) {
     RED.nodes.createNode(this,config);
     var node = this;
 
@@ -56,19 +56,19 @@ module.exports = function(RED) {
   	});
 
     ros.on('connection', function() {
-      this.status({fill:"green",shape:"dot",text:"connected"});
+      node.status({fill:"green",shape:"dot",text:"connected"});
 
       node.log('RosPublishNode connected to websocket server.');
     });
 
     ros.on('error', function(error) {
-      this.status({fill:"red",shape:"ring",text:"error"});
+      node.status({fill:"red",shape:"ring",text:"error"});
 
       node.log('RosPublishNode Error connecting to websocket server: ', error);
     });
 
     ros.on('close', function() {
-      this.status({fill:"red",shape:"ring",text:"disconnected"});
+      node.status({fill:"red",shape:"ring",text:"disconnected"});
 
       node.log('RosPublishNode Connection to websocket server closed.');
     });
@@ -84,5 +84,4 @@ module.exports = function(RED) {
       node.log('RosPublishNode got data: ' + data);
     });
   }
-  RED.nodes.registerType("ros-publish",RosPublishNode);
 }

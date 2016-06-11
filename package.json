@@ -12,8 +12,7 @@
   ],
   "node-red": {
     "nodes": {
-      "ros-subscribe-node": "ros-subscribe-node.js",
-      "ros-publish-node": "ros-publish-node.js"
+      "ros": "ros.js"
     }
   },
   "author": "Nam Giang",
