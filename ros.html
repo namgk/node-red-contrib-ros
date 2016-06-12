@@ -1,17 +1,18 @@
 <script type="text/javascript">
     RED.nodes.registerType('ros-subscribe',{
-        category: 'ros',
-        color: '#a6bbcf',
+        category: 'input',
+        color: '#fef5ff',
         defaults: {
             server: {type:"ros-server"},
-            topicname: {value: "/cmd_vel"},
-            msgtype: {value: "geometry_msgs/Twist"}
+            topicname: {value: ""},
+            msgtype: {value: ""}
         },
         inputs:0,
         outputs:1,
+        paletteLabel: 'ros',
         icon: "icon.png",
         label: function() {
-            return this.name||"ros-subscribe";
+            return this.topicname||"ros subscribe";
         }
     });
 </script>
@@ -22,29 +23,31 @@
         <input type="text" id="node-input-server">
     </div>
     <div class="form-row">
-        <label for="node-input-topicname"><i class="icon-tag"></i> Name</label>
-        <input type="text" id="node-input-topicname" placeholder="/cmd_vel">
+        <label for="node-input-topicname"><i class="icon-tag"></i> Topic</label>
+        <input type="text" id="node-input-topicname" placeholder="/mytopic">
     </div>
     <div class="form-row">
         <label for="node-input-msgtype"><i class="icon-tag"></i> Type</label>
-        <input type="text" id="node-input-msgtype" placeholder="geometry_msgs/Twist">
+        <input type="text" id="node-input-msgtype" placeholder="std_msgs/String">
     </div>
 </script>
 
 <script type="text/javascript">
     RED.nodes.registerType('ros-publish',{
-        category: 'ros',
-        color: '#a6bbcf',
+        category: 'output',
+        color: '#fef5ff',
         defaults: {
             server: {type:"ros-server"},
-            topicname: {value: "/cmd_vel"},
-            msgtype: {value: "geometry_msgs/Twist"}
+            topicname: {value: ""},
+            msgtype: {value: ""}
         },
         inputs:1,
         outputs:0,
+        align: 'right',
+        paletteLabel: 'ros',
         icon: "icon.png",
         label: function() {
-            return this.name||"ros-publish";
+            return this.topicname||"ros publish";
         }
     });
 </script>
@@ -55,18 +58,18 @@
         <input type="text" id="node-input-server">
     </div>
     <div class="form-row">
-        <label for="node-input-topicname"><i class="icon-tag"></i> Name</label>
-        <input type="text" id="node-input-topicname" placeholder="/cmd_vel">
+        <label for="node-input-topicname"><i class="icon-tag"></i> Topic</label>
+        <input type="text" id="node-input-topicname" placeholder="/mytopic">
     </div>
     <div class="form-row">
         <label for="node-input-msgtype"><i class="icon-tag"></i> Type</label>
-        <input type="text" id="node-input-msgtype" placeholder="geometry_msgs/Twist">
+        <input type="text" id="node-input-msgtype" placeholder="std_msgs/String">
     </div>
 </script>
 
 
 <script type="text/x-red" data-help-name="ros-subscribe">
-    <p>A node that subscribe to ROS bridge websocket server 111</p>
+    <p>A node that subscribe to ROS bridge websocket server</p>
 </script>
 
 <script type="text/javascript">
