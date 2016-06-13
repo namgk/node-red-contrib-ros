@@ -7,38 +7,29 @@ module.exports = function(RED) {
 
     node.server = RED.nodes.getNode(config.server);
     
-    if (!node.server){
+    if (!node.server || !node.server.ros){
       return;
     }
 
-  	var ros = new ROSLIB.Ros({
-     	  url : node.server.url
-  	});
-
-    ros.on('connection', function() {
-      node.status({fill:"green",shape:"dot",text:"connected"});
-      node.log('RosPublishNode connected to websocket server.');
-    });
-
-    ros.on('error', function(error) {
-      node.status({fill:"red",shape:"dot",text:"error"});
-      node.log('RosPublishNode Error connecting to websocket server: ', error);
-    });
-
-    ros.on('close', function() {
-      node.status({fill:"red",shape:"dot",text:"disconnected"});
-      node.log('RosPublishNode Connection to websocket server closed.');
+    var topic = new ROSLIB.Topic({
+      name : config.topicname,
+      messageType : config.msgtype
     });
 
     node.on('input', (msg) => {
-      var topic = new ROSLIB.Topic({
-        ros : ros,
-        name : config.topicname,
-        messageType : config.msgtype
-      });
+      topic.ros = node.server.ros;
+      node.log('publishing msg ' + msg.payload + ' queue: ' + topic.queue_size);
+      // var pubslishMsg = new ROSLIB.Message({data: msg.payload});
+      topic.publish({data: msg.payload});
+    });
 
-      var pubslishMsg = new ROSLIB.Message(msg.payload);
-      topic.publish(pubslishMsg);
-    })
+    node.server.on('connected', () => {
+      node.status({fill:"green",shape:"dot",text:"connected"});
+    });
+
+    node.server.on('error', () => {
+      node.status({fill:"red",shape:"dot",text:"error"});
+    });
+
   }
 }

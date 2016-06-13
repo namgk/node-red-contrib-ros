@@ -7,64 +7,44 @@ module.exports = function (RED){
 
     node.server = RED.nodes.getNode(config.server);
     
-    if (!node.server){
+    if (!node.server || !node.server.ros){
       return;
     }
 
-    node.closing = false;
-    node.on("close", function() {
-      node.closing = true;
-      if (node.tout) { clearTimeout(node.tout); }
-      if (node.ros){
-        node.ros.close();
-      }
+    var topic = new ROSLIB.Topic({
+      ros : node.server.ros,
+      name : config.topicname
     });
 
-    function startconn() {    // Connect to remote endpoint
-      var ros = new ROSLIB.Ros({
-        url : node.server.url
-      });
-      node.ros = ros; // keep for closing
-      handleConnection(ros);
+    // if topic has not been advertised yet, keep trying again
+    function topicQuery(tname){
+      node.server.ros.getTopicType(config.topicname, (type) => {
+        if (!type){
+          setTimeout(topicQuery, 1000);
+        } else {
+          topic.subscribe(function(data){
+            node.send({payload: data});
+            node.log('got data: ' + data);
+          });
+        }
+      })
     }
 
-    function handleConnection(ros) {
-      var topic = new ROSLIB.Topic({
-        ros : ros,
-        name : config.topicname,
-        messageType : config.msgtype
-      });
+    topicQuery(config.topicname);
 
-      ros.on('connection', function() {
-        node.status({fill:"green",shape:"dot",text:"connected"});
-        node.log('connected to websocket server.');
+    node.server.on('connected', () => {
+      node.status({fill:"green",shape:"dot",text:"connected"});
+    });
 
-        topic.subscribe(function(data){
-          node.send({payload: data});
-          node.log('got data: ' + data);
-        });
-      });
+    node.server.on('error', () => {
+      node.status({fill:"red",shape:"dot",text:"error"});
+    });
 
-      ros.on('error', function(error) {
-        node.status({fill:"red",shape:"dot",text:"error"});
-        node.log('Error connecting : ', error);
-        if (!node.closing) {
-          node.tout = setTimeout(function(){ startconn(); }, 5000);
-        }
-      });
-
-      ros.on('close', function() {
-        node.status({fill:"red",shape:"dot",text:"disconnected"});
-        node.log('Connection closed.');
-
-        if (!node.closing) {
-          node.tout = setTimeout(function(){ startconn(); }, 3000);
-        }
-      });
-    }
-    
-    startconn();
-    node.closing = false;
+    node.on("close", function() {
+      if (!node.server.closing){
+        topic.unsubscribe();
+      }
+    });
   }
 }
 

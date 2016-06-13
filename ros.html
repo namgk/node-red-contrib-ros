@@ -4,12 +4,11 @@
         color: '#fef5ff',
         defaults: {
             server: {type:"ros-server"},
-            topicname: {value: ""},
-            msgtype: {value: ""}
+            topicname: {value: ""}
         },
         inputs:0,
         outputs:1,
-        paletteLabel: 'ros',
+        paletteLabel: 'ros sub',
         icon: "icon.png",
         label: function() {
             return this.topicname||"ros subscribe";
@@ -26,10 +25,6 @@
         <label for="node-input-topicname"><i class="icon-tag"></i> Topic</label>
         <input type="text" id="node-input-topicname" placeholder="/mytopic">
     </div>
-    <div class="form-row">
-        <label for="node-input-msgtype"><i class="icon-tag"></i> Type</label>
-        <input type="text" id="node-input-msgtype" placeholder="std_msgs/String">
-    </div>
 </script>
 
 <script type="text/javascript">
@@ -39,12 +34,12 @@
         defaults: {
             server: {type:"ros-server"},
             topicname: {value: ""},
-            msgtype: {value: ""}
+            msgtype: {value: "std_msgs/String"} 
         },
         inputs:1,
         outputs:0,
         align: 'right',
-        paletteLabel: 'ros',
+        paletteLabel: 'ros pub',
         icon: "icon.png",
         label: function() {
             return this.topicname||"ros publish";
@@ -62,8 +57,12 @@
         <input type="text" id="node-input-topicname" placeholder="/mytopic">
     </div>
     <div class="form-row">
-        <label for="node-input-msgtype"><i class="icon-tag"></i> Type</label>
-        <input type="text" id="node-input-msgtype" placeholder="std_msgs/String">
+        <label for="node-input-msgtype"><i class="fa fa-dot-circle-o"></i> Type</label>
+        <select id="node-input-msgtype">
+            <option value="std_msgs/String">std_msgs/String</option>
+            <option value="std_msgs/Int16">std_msgs/Int16</option>
+            <option value="std_msgs/Int32">std_msgs/Int32</option>
+        </select>
     </div>
 </script>
 
