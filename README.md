@@ -7,7 +7,11 @@ Currently there are only three message type supported: std_msgs/String, std_msgs
 
 ## install
 
-`npm install node-red-contrib-influxdb`
+`npm install node-red-contrib-ros`
+
+or
+
+`node-red-admin install node-red-contrib-ros`
 
 ## configuration
 
