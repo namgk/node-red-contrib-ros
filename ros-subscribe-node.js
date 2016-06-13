@@ -25,7 +25,7 @@ module.exports = function (RED){
       })
     }
 
-    node.server.on('connected', () => {
+    node.server.on('ros connected', () => {
       node.topic = new ROSLIB.Topic({
         ros : node.server.ros,
         name : config.topicname
@@ -35,7 +35,7 @@ module.exports = function (RED){
       node.status({fill:"green",shape:"dot",text:"connected"});
     });
 
-    node.server.on('error', () => {
+    node.server.on('ros error', () => {
       node.status({fill:"red",shape:"dot",text:"error"});
     });
 

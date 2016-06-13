@@ -23,11 +23,11 @@ module.exports = function(RED) {
       topic.publish({data: msg.payload});
     });
 
-    node.server.on('connected', () => {
+    node.server.on('ros connected', () => {
       node.status({fill:"green",shape:"dot",text:"connected"});
     });
 
-    node.server.on('error', () => {
+    node.server.on('ros error', () => {
       node.status({fill:"red",shape:"dot",text:"error"});
     });
 
