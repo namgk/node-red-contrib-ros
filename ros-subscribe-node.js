@@ -11,14 +11,9 @@ module.exports = function (RED){
       return;
     }
 
-    var topic = new ROSLIB.Topic({
-      ros : node.server.ros,
-      name : config.topicname
-    });
-
     // if topic has not been advertised yet, keep trying again
-    function topicQuery(tname){
-      node.server.ros.getTopicType(config.topicname, (type) => {
+    function topicQuery(topic){
+      node.server.ros.getTopicType(topic.name, (type) => {
         if (!type){
           setTimeout(topicQuery, 1000);
         } else {
@@ -30,9 +25,13 @@ module.exports = function (RED){
       })
     }
 
-    topicQuery(config.topicname);
-
     node.server.on('connected', () => {
+      node.topic = new ROSLIB.Topic({
+        ros : node.server.ros,
+        name : config.topicname
+      });
+      
+      topicQuery(node.topic);
       node.status({fill:"green",shape:"dot",text:"connected"});
     });
 
@@ -42,7 +41,7 @@ module.exports = function (RED){
 
     node.on("close", function() {
       if (!node.server.closing){
-        topic.unsubscribe();
+        node.topic.unsubscribe();
       }
     });
   }

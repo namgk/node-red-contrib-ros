@@ -21,6 +21,10 @@ module.exports = function(RED) {
       node.log('publishing msg ' + msg.payload + ' queue: ' + topic.queue_size);
       // var pubslishMsg = new ROSLIB.Message({data: msg.payload});
       topic.publish({data: msg.payload});
+
+      node.server.ros.getNodes((nodes)=>{
+        node.log(JSON.stringify(nodes));
+      })
     });
 
     node.server.on('connected', () => {
