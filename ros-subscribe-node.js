@@ -15,7 +15,7 @@ module.exports = function (RED){
     function topicQuery(topic){
       node.server.ros.getTopicType(topic.name, (type) => {
         if (!type){
-          setTimeout(topicQuery(topic), 1000);
+          setTimeout(()=>{topicQuery(topic)}, 1000);
         } else {
           topic.subscribe(function(data){
             node.send({payload: data});
