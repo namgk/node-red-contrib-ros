@@ -19,7 +19,7 @@ module.exports = function (RED){
         } else {
           topic.subscribe(function(data){
             node.send({payload: data});
-            node.log('got data: ' + data);
+            //node.log('got data: ' + data);
           });
         }
       })
