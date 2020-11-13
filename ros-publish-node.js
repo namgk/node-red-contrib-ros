@@ -11,16 +11,17 @@ module.exports = function(RED) {
       return;
     }
 
+    var msgtype = config.typepackage + "/" + config.typename
     var topic = new ROSLIB.Topic({
       name : config.topicname,
-      messageType : config.msgtype
+      messageType : msgtype
     });
 
     node.on('input', (msg) => {
       topic.ros = node.server.ros;
-      node.log('publishing msg ' + msg.payload);
+      // node.log('publishing msg ' + msg.payload);
       // var pubslishMsg = new ROSLIB.Message({data: msg.payload});
-      topic.publish({data: msg.payload});
+      topic.publish(msg.payload);
     });
 
     node.server.on('ros connected', () => {
