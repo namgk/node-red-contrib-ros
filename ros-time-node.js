@@ -1,7 +1,7 @@
 module.exports = function (RED){
   return function (config) {
     var ROSLIB = require('roslib'); 
-    const rosnodejs = require('rosnodejs')
+    const Time = require('Time.js')
 
     RED.nodes.createNode(this,config);
     var node = this;
@@ -27,7 +27,6 @@ module.exports = function (RED){
       else {
         new_payload = msg.payload;
       }
-      const Time = rosnodejs.Time;
       const now = Time.now();
       // Add stamp and header to input msg
       if (node.addstamp2input && node.addheader2input){
@@ -70,7 +69,6 @@ module.exports = function (RED){
     }
     function publishTime()
     {
-      const Time = rosnodejs.Time;
       const now = Time.now();
       node.send({payload: now});
     }
