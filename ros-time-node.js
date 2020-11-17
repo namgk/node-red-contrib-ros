@@ -1,7 +1,7 @@
 module.exports = function (RED){
   return function (config) {
     var ROSLIB = require('roslib'); 
-    const Time = require('Time.js')
+    const Time = require('./Time.js');
 
     RED.nodes.createNode(this,config);
     var node = this;
