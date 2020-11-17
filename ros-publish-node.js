@@ -1,7 +1,7 @@
 module.exports = function(RED) {
   return function (config) {
     var ROSLIB = require('roslib'); 
-    const rosnodejs = require('rosnodejs')
+    const Time = require('./Time.js');
 
     RED.nodes.createNode(this,config);
     var node = this;
@@ -25,7 +25,6 @@ module.exports = function(RED) {
       var new_payload = msg.payload;
       // Insert timestamp in header
       if (config.stampheader){
-        const Time = rosnodejs.Time;
         const now = Time.now();
         new_payload = addHeader(new_payload, now);
       }
