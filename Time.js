@@ -1,4 +1,4 @@
-const timeUtils = require('time_utils.js');
+const timeUtils = require('./time_utils.js');
 
 let simTimeSub = null;
 let simTime = timeUtils.dateToRosTime(0);
