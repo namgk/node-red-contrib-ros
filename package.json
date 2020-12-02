@@ -22,6 +22,6 @@
   },
   "homepage": "https://github.com/namgk/node-red-contrib-ros#readme",
   "dependencies": {
-    "roslib": "^0.18.0"
+    "roslib": "^1.0.1"
   }
 }

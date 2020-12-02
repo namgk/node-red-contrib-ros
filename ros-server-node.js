@@ -14,8 +14,6 @@ module.exports = function (RED){
       }
     });
 
-    var trials = 0;
-
     function startconn() {    // Connect to remote endpoint
       var ros = new ROSLIB.Ros({
         url : config.url
@@ -31,13 +29,8 @@ module.exports = function (RED){
       });
 
       ros.on('error', function(error) {
-        trials++;
       	node.emit('ros error');
         node.log('Error connecting : ', error);
-        if (!node.closing) {
-          node.log('reconnecting');
-          node.tout = setTimeout(function(){ startconn(); }, Math.pow(2, trials) * 1000);
-        }
       });
 
       ros.on('close', function() {
