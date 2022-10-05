@@ -23,7 +23,9 @@ module.exports = function(RED) {
         ar = ar.sort()
         o[a[i]] = ar
       } catch (e) {
-        console.error('Error in retrieving ROS packages: ' + e);
+        console.error('Error in retrieving ROS ' + req.params.type
+                      + ': package= ' + a[i]
+                      + ', error=' + e);
       }
     }
     res.json(o)
