@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ros-subscribe',{
+        category: 'input',
+        color: '#fef5ff',
+        defaults: {
+            server: {type:"ros-server"},
+            topicname: {value: ""}
+        },
+        inputs:0,
+        outputs:1,
+        paletteLabel: 'ros sub',
+        icon: "icon.png",
+        label: function() {
+            return this.topicname||"ros subscribe";
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="ros-subscribe">
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-user"></i> ROS Server</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topicname"><i class="icon-tag"></i> Topic</label>
+        <input type="text" id="node-input-topicname" placeholder="/mytopic">
+    </div>
+</script>
+
+<script type="text/html" data-help-name="ros-subscribe">
+    <p>A node that subscribe to ROS bridge websocket server</p>
+</script>

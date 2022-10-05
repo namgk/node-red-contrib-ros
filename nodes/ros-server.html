@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ros-server',{
+        category: 'config',
+        defaults: {
+            url: {value:"ws://0.0.0.0:9090",required:true}
+        },
+        label: function() {
+            return this.url;
+        }
+    });
+</script>
+
+<script type="text/html" data-template-name="ros-server">
+    <div class="form-row">
+        <label for="node-config-input-url"><i class="icon-bookmark"></i> Url</label>
+        <input type="text" id="node-config-input-url">
+    </div>
+</script>

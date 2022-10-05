@@ -20,6 +20,9 @@ ROS server is the ROS bridge's websocket address. E.g ws://localhost:9000/
 ### ros-publish
 Messages sent to publish node need to conform the message type. The publish node retrieves the compiled ROS messages in your workspace. Also custom ROS message will be retrieved. You can also add a ROS timestamp in the message. Note that this is only possible if the ROS message contains a header. 
 
+### ros-service-call
+Requests sent to ros-service-call node need to conform the srv Request type. The service-call node retrieves the compiled ROS services in your workspace. Also custom ROS services will be retrieved. The service response will be sent as a payload.
+
 ### ros-subscribe
 Messages are received using the ros-subscribe node. The payload is the content of the ROS message.
 

@@ -1,6 +1,6 @@
 {
   "name": "node-red-contrib-ros",
-  "version": "1.0.9",
+  "version": "1.0.10",
   "description": "Node-RED nodes for connecting to ROS bridge",
   "repository": {
     "type": "git",
@@ -12,7 +12,12 @@
   ],
   "node-red": {
     "nodes": {
-      "ros": "ros.js"
+      "ros_publish": "./nodes/ros-publish.js",
+      "ros_server": "./nodes/ros-server.js",
+      "ros_service_call": "./nodes/ros-service-call.js",
+      "ros_setup": "./nodes/ros-setup.js",
+      "ros_subscribe": "./nodes/ros-subscribe.js",
+      "ros_time": "./nodes/ros-time.js"
     }
   },
   "author": "Nam Giang",
@@ -22,6 +27,7 @@
   },
   "homepage": "https://github.com/namgk/node-red-contrib-ros#readme",
   "dependencies": {
-    "roslib": "^0.18.0"
+    "roslib": "^1.3.0",
+    "rosnodejs": "^3.1.0"
   }
 }

@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ros-service-call',{
+        category: 'output',
+        color: '#fef5ff',
+        defaults: {
+            server: {type:"ros-server"},
+            servicename: {
+                value: "",
+                required: true
+            },
+            typepackage: {
+                validate: function(v) {
+                    return (window.list_srv_package.indexOf(v) > -1)
+                },
+                required: true
+            },
+            typename: {
+                validate: function(v) {
+                    return (window.list_srv_package.indexOf(this.typepackage) > -1) && (window.list_srv[this.typepackage].indexOf(v) > -1)
+                },
+                required: true
+            }
+        },
+        inputs:1,
+        outputs:1,
+        align: 'right',
+        paletteLabel: 'ros service',
+        icon: "icon.png",
+        label: function() {
+            return this.servicename||"ros service call";
+        },
+        oneditprepare: function() {
+            var node = this;
+
+            if (!node.typepackage) {
+                node.typepackage = 'std_msgs'
+            }
+
+            if (!node.typename) {
+                node.typename = 'String'
+            }
+
+            $('#node-input-typepackage')
+                .html(window.list_srv_package_html)
+                .val(node.typepackage)
+
+            $('#node-input-typepackage').change(function() {
+                node.typepackage = this.value
+                loadPackageService(node.typepackage, node.typename)
+            })
+
+            $('#node-input-typename').change(function() {
+                node.typename = this.value
+                setFormatTextService(node.typepackage + "/" + node.typename)
+            })
+
+            loadPackageService(node.typepackage, node.typename)
+        }
+    })
+
+    var loadPackageService = function(typepackage, typename) {
+        var ar2 = window.list_srv[typepackage]
+
+        var o = ""
+        for (var i = 0; i < ar2.length; i++) {
+            o += '<option value="' + ar2[i] + '">' + ar2[i] + '</option>'
+        }
+
+        $('#node-input-typename').html(o)
+        $("#node-input-typename")
+            .val(typename)
+
+        setFormatTextService(typepackage + "/" + typename)
+    }
+
+    $.getJSON('packages/srv', function(list) {
+        window.list_srv = list
+
+        var o = ""
+        var o2 = []
+        for (var key in window.list_srv) {
+            if (window.list_srv.hasOwnProperty(key)) {
+                o += '<option value="' + key + '">' + key + '</option>'
+                o2.push(key)
+            }
+        }
+        window.list_srv_package_html = o
+        window.list_srv_package = o2
+    })
+
+    function setFormatTextService(package) {
+        $.getJSON('ROSServiceInfo/' + package, function(data) {
+            var v = syntaxHighlight(data)
+            $('#msg_format').html(v)
+        })
+    }
+
+    function syntaxHighlight(json) {
+        if (typeof json != 'string') {
+            json = JSON.stringify(json, undefined, 2);
+        }
+        json = json.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        return json.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function(match) {
+            var cls = 'number';
+            if (/^"/.test(match)) {
+                if (/:$/.test(match)) {
+                    cls = 'key';
+                } else {
+                    cls = 'string';
+                }
+            } else if (/true|false/.test(match)) {
+                cls = 'boolean';
+            } else if (/null/.test(match)) {
+                cls = 'null';
+            }
+            return '<span class="' + cls + '">' + match + '</span>';
+        });
+    }
+</script>
+
+<script type="text/html" data-template-name="ros-service-call">
+    <div class="form-row">
+        <label for="node-input-server"><i class="fa fa-user"></i> ROS Server</label>
+        <input type="text" id="node-input-server">
+    </div>
+    <div class="form-row">
+        <label for="node-input-servicename">
+            <i class="icon-tag"></i> ROS Service name</label>
+        <input type="text" id="node-input-servicename" placeholder="/myservice">
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-typepackage">Datatype package</label>
+        <select id="node-input-typepackage"></select>
+    </div>
+
+    <div class="form-row">
+        <label for="node-input-typename">Datatype</label>
+        <select id="node-input-typename"></select>
+    </div>
+
+    <h4>Input is expected in the format:</h4>
+    <pre id="msg_format">
+    </pre>
+</script>
+
+<script type="text/html" data-help-name="ros-service-call">
+    <p>A node that generates a service call to ROS bridge websocket server</p>
+</script>

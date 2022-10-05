@@ -1,7 +1,7 @@
 module.exports = function (RED){
-  return function (config) {
-    var ROSLIB = require('roslib'); 
+  var ROSLIB = require('roslib');
 
+  function RosServerNode(config) {
     RED.nodes.createNode(this,config);
     var node = this;
 
@@ -53,4 +53,6 @@ module.exports = function (RED){
     startconn();
     node.closing = false;
   }
-}  
+
+  RED.nodes.registerType("ros-server",RosServerNode);
+};
