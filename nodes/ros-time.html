@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ros-time',{
+        category: 'input',
+        color: '#fef5ff',
+        defaults: {
+            mode: {value: "Timed"},
+            sampletime: {value:"20", validate: function(v){
+                    return sampletimeValidator(this,v) ;
+                }
+            },
+            addstamp2input: {value:false},
+            addheader2input: {value:false}
+        },
+        inputs:1,
+        outputs:1,
+        paletteLabel: 'ros time',
+        icon: "icon.png",
+        label: function() {
+            return "ros time";
+        }
+    });
+
+    var sampletimeValidator = function(node,v){
+        if(v == ""){
+            return false;
+        }
+        else if (parseFloat(v) < 0.01){
+            return false;
+        }
+        return RED.validators.number()(v);
+    }
+</script>
+
+<script type="text/html" data-template-name="ros-time">
+    <div class="form-row">
+        <label for="node-input-mode"><i class="fa fa-user"></i> Mode</label>
+        <select id="node-input-mode">
+            <option value="Timed">Timed</option>
+            <option value="On input">Input</option>
+        </select>
+    </div>
+    <div class="form-row">
+        <label for="node-input-sampletime"><i class="fa fa-user"></i> Sample time [s]</label>
+        <input type="text" id="node-input-sampletime">
+    </div>
+    <div>
+        <span style="width: 350px; float: left; margin-left: 5px;"><input type="checkbox" id="node-input-addstamp2input" placeholder="addstamp2input" > Add stamp to input message</span>
+        <br/><br/>
+    </div>
+    <div>
+        <span style="width: 350px; float: left; margin-left: 5px;"><input type="checkbox" id="node-input-addheader2input" placeholder="addheader2input" > Add header to input message</span>
+        <br/><br/>
+    </div>
+</script>
+
+<script type="text/html" data-help-name="ros-time">
+    <p>A node that outputs current ROS time</p>
+</script>

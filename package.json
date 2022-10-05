@@ -12,9 +12,12 @@
   ],
   "node-red": {
     "nodes": {
+      "ros_publish": "./nodes/ros-publish.js",
+      "ros_server": "./nodes/ros-server.js",
+      "ros_service_call": "./nodes/ros-service-call.js",
       "ros_setup": "./nodes/ros-setup.js",
-      "ros": "ros.js",
-      "ros_service_call": "./nodes/ros-service-call.js"
+      "ros_subscribe": "./nodes/ros-subscribe.js",
+      "ros_time": "./nodes/ros-time.js"
     }
   },
   "author": "Nam Giang",
