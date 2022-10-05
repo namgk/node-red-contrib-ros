@@ -18,8 +18,8 @@ module.exports = function (RED){
           setTimeout(()=>{topicQuery(topic)}, 1000);
         } else {
           topic.subscribe(function(data){
-            node.send({payload: data});
-            // node.log('got data: ' + data);
+            var o = JSON.parse(JSON.stringify(data))
+            node.send({payload: o});
           });
         }
       })

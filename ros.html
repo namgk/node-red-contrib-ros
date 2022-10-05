@@ -160,7 +160,7 @@
         setFormatText(typepackage + "/" + typename)
     }
 
-    $.getJSON('packages', function(list) {
+    $.getJSON('packages/msg', function(list) {
         window.list = list
 
         var o = ""
@@ -176,7 +176,7 @@
     })
 
     function setFormatText(package) {
-        $.getJSON('ROSInfo/' + package, function(data) {
+        $.getJSON('ROSTopicInfo/' + package, function(data) {
             var v = syntaxHighlight(data)
             $('#msg_format').html(v)
         })
